@@ -1,0 +1,25 @@
+-- Esta migración es segura: no elimina datos existentes.
+
+ALTER TABLE users MODIFY COLUMN role VARCHAR(50) NOT NULL DEFAULT 'cashier';
+
+CREATE TABLE IF NOT EXISTS store_settings (
+    id INT PRIMARY KEY DEFAULT 1,
+    store_name VARCHAR(150) NOT NULL DEFAULT 'TIENDADIANA BOUTIQUE',
+    document_number VARCHAR(50) DEFAULT NULL,
+    address VARCHAR(255) DEFAULT NULL,
+    phone VARCHAR(50) DEFAULT NULL,
+    ticket_message VARCHAR(255) DEFAULT NULL,
+    logo_url LONGTEXT NULL,
+    theme VARCHAR(50) NOT NULL DEFAULT 'rose',
+    currency VARCHAR(10) NOT NULL DEFAULT 'S/',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+INSERT IGNORE INTO store_settings (id, store_name, theme, currency)
+VALUES (1, 'TIENDADIANA BOUTIQUE', 'rose', 'S/');
+
+CREATE TABLE IF NOT EXISTS ticket_sequences (
+    sequence_key VARCHAR(20) PRIMARY KEY,
+    last_number BIGINT UNSIGNED NOT NULL DEFAULT 0,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
